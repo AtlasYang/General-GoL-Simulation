@@ -5,6 +5,7 @@ import numpy as np
 import sys, random, copy
 
 # making cell grid with class(OOP)
+
 class CellMap:
     def __init__(self, n, dimension, state_num):
         self.N = n
@@ -36,6 +37,7 @@ class CellMap:
                     t.append(np.append(i, j))
             return self.h_set_init(t)
 
+
     def p_set_init(self, pset):
         p = []
         if len(pset) == self.N ** self.DIM:
@@ -45,6 +47,7 @@ class CellMap:
                 for j in range(self.N):
                     p.append(np.append(i, j))
             return self.p_set_init(p)
+
     
     def sum_adjacent(self, pos):
         try:
@@ -57,11 +60,11 @@ class CellMap:
             return 0
 
 
-    def process(self):
-        basis_pos = np.array([0 for i in range(self.DIM)])
-        t_map = np.zeros_like(self.map)
-        for pos in self.POS_SET:
-            t_map[tuple(pos)] = int(self.transition_matrix[self.map[tuple(pos)]][self.sum_adjacent(pos)])
-        self.map = t_map
+    def process(self, epoch = 1):
+        for i in range(epoch):
+            t_map = np.zeros_like(self.map)
+            for pos in self.POS_SET:
+                t_map[tuple(pos)] = int(self.transition_matrix[self.map[tuple(pos)]][self.sum_adjacent(pos)])
+            self.map = t_map
         return
 
